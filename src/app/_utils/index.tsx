@@ -10,19 +10,18 @@ type yRange = {
 };
 
 //==================== utils functions start here
-const generateRandomCords = (xRange: xRange, yRange: yRange) => {
+export const generateRandomCords = (xRange: xRange, yRange: yRange) => {
   let abscissa = Math.floor(
     Math.random() * (xRange.xMax - xRange.xMin) + xRange.xMin
   );
   let ordinate = Math.floor(
     Math.random() * (yRange.yMax - yRange.yMin) + yRange.yMin
   );
-  console.log("=== {abscissa, ordinate}", { abscissa, ordinate });
   return { abscissa, ordinate };
 };
 
 // highlighter renderer
-const highlightColors = [
+export const highlightColors = [
   "rgb(189, 224, 254)",
   "rgb(204, 213, 174)",
   "rgb(255, 200, 221)",
@@ -33,7 +32,7 @@ const highlightColors = [
 ];
 
 export const renderTextHighlighter = () => {
-  let textsToHighlight = document.querySelectorAll(".text-to-highlight");
+  let textsToHighlight = document.querySelectorAll(".highlighted-text");
 
   for (let i = 0; i < textsToHighlight.length; i++) {
     // fetching required params for text to be highlighted
