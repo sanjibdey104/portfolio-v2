@@ -32,3 +32,15 @@ body {
     text-wrap: balance;
   }
 }
+
+.text-to-highlight {
+  position: relative;
+}
+
+.highlighter-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.3;
+  z-index: -1;
+}
