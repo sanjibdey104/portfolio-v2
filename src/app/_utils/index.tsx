@@ -31,6 +31,13 @@ export const highlightColors = [
   "rgb(255, 213, 0)",
 ];
 
+export const generateRandomStrokeColor = () => {
+  let r = Math.floor(Math.random() * 256);
+  let g = Math.floor(Math.random() * 256);
+  let b = Math.floor(Math.random() * 256);
+  return `rgb(${r},${g},${b}, 0.35)`;
+};
+
 export const renderTextHighlighter = () => {
   let textsToHighlight = document.querySelectorAll(".highlighted-text");
 

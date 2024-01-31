@@ -1,6 +1,10 @@
 "use client"; // This is a client component
 import { useEffect, useRef, useState } from "react";
-import { generateRandomCords, highlightColors } from "@/app/_utils";
+import {
+  generateRandomCords,
+  generateRandomStrokeColor,
+  highlightColors,
+} from "@/app/_utils";
 
 const HighlightedText = (props: any) => {
   let highlightedTextRef = useRef<any>(null);
@@ -63,9 +67,7 @@ const HighlightedText = (props: any) => {
         <path
           className="path highlighter-svg-path"
           d={randomGeneratedPath}
-          stroke={
-            highlightColors[Math.floor(Math.random() * highlightColors.length)]
-          }
+          stroke={generateRandomStrokeColor()}
           fill="transparent"
           stroke-width="17"
           stroke-linecap="square"
