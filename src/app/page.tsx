@@ -1,16 +1,39 @@
-"use client"; // This is a client component
-import HighlightedText from "@/app/components/HighlightedText";
+"use client";
+import HighlightedText from "./components/HighlightedText";
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
-      {/* <section className="center">
-        <div className="w-96 h-96 bg-amber-400 rounded-full relative">
-          <h3 className="w-56 text-black text-4xl font-bold">
-            Namaste I'm Sanjib.
-          </h3>
+      <section className="portfolio-scope-explanation w-full h-full p-20">
+        <h1 className="w-full lg:w-1/3 text-6xl mb-8 font-semibold">
+          presenting <HighlightedText>version 2</HighlightedText> of my
+          portfolio
+        </h1>
+
+        <div className="explanation w-full lg:w-1/2 mb-8">
+          <p>
+            the idea is to{" "}
+            <HighlightedText>explore and implement</HighlightedText>{" "}
+            fundamentals, different tools and technologies, and maintain the
+            portfolio as a journal.
+          </p>
+          <p>tracking everything from findings to failures.</p>
         </div>
-      </section> */}
+
+        <div className="current-research__tracker">
+          <p className="current-research__domain mb-1">
+            [domain]: creative coding{" "}
+          </p>
+
+          <p className="current-research__topic mb-1">
+            [topic]: SVGs (specifically curves){" "}
+          </p>
+
+          <p className="current-research-topic__brief">
+            [brief]: generating custom highlighter SVG for specific texts
+          </p>
+        </div>
+      </section>
     </main>
   );
 }
