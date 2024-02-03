@@ -69,7 +69,7 @@ const HighlightedText = (props: any) => {
           d={randomGeneratedPath}
           stroke={generateRandomStrokeColor()}
           fill="transparent"
-          stroke-width="17"
+          stroke-width={svgMetrics.height}
           stroke-linecap="square"
         ></path>
       </svg>
