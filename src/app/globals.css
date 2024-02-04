@@ -35,6 +35,7 @@ body {
 
 .highlighted-text {
   position: relative;
+  border-width: 2px;
 }
 
 .highlighter-svg {

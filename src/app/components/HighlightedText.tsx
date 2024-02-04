@@ -20,17 +20,22 @@ const HighlightedText = (props: any) => {
 
       // fetching required params for text to be highlighted
       let textWidth = Math.floor(textToHighlight.getBoundingClientRect().width);
-      let textHeight = Math.floor(
-        textToHighlight.getBoundingClientRect().height
+      let textHeight = Number(
+        window.getComputedStyle(textToHighlight).fontSize.replace("px", "")
       );
+      // Math.floor(
+      //   textToHighlight.getBoundingClientRect().height
+      // );
+      console.log("=== text to highlight props", textHeight);
 
       setSvgMetrics({ ...svgMetrics, width: textWidth, height: textHeight });
 
       // generating the curve path
       let startCords = generateRandomCords(
-        { xMax: 10, xMin: 5 },
-        { yMax: 10, yMin: 5 }
+        { xMax: 10, xMin: -10 },
+        { yMax: 10, yMin: -10 }
       );
+      console.log("=== startCords", startCords);
 
       let endCords = generateRandomCords(
         { xMax: textWidth, xMin: textWidth - 10 },
@@ -55,7 +60,10 @@ const HighlightedText = (props: any) => {
   }, []);
 
   return (
-    <span ref={highlightedTextRef} className="highlighted-text relative">
+    <span
+      ref={highlightedTextRef}
+      className="highlighted-text relative border-black inline-flex"
+    >
       {props.children}
 
       <svg
@@ -69,8 +77,8 @@ const HighlightedText = (props: any) => {
           d={randomGeneratedPath}
           stroke={generateRandomStrokeColor()}
           fill="transparent"
-          stroke-width={svgMetrics.height}
-          stroke-linecap="square"
+          strokeWidth={Math.floor(svgMetrics.height * 0.6)}
+          strokeLinecap="square"
         ></path>
       </svg>
     </span>
