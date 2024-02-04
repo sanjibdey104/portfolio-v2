@@ -3,6 +3,6 @@ A fresh take on the idea of a portfolio website, shifting from a simple projects
 
 ### currently working on -> SVG highlighter
 
-- [] handle multile words case -> currently path render is incorrect when wrapped text line breaks
-- [] re-render/adjust the path on window resize
-- [] make the curve points more dynamic
+- [ ] handle multile words case -> currently path render is incorrect when wrapped text line breaks
+- [ ] re-render/adjust the path on window resize
+- [ ] make the curve points more dynamic
