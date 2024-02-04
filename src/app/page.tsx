@@ -21,6 +21,11 @@ export default function Home() {
         </div>
 
         <div className="current-research__tracker">
+          <h4 className="flex items-center gap-1 mb-1">
+            <span className="current-experiment-pulse-indicator"></span>
+            <span>currently experimenting</span>
+          </h4>
+
           <p className="current-research__domain mb-1">
             [domain]: creative coding{" "}
           </p>
