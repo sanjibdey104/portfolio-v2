@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -62,7 +63,15 @@ export default function Home() {
         <div className="current-research__tracker">
           <h4 className="flex items-center gap-1 mb-1">
             <span className="current-experiment-pulse-indicator"></span>
-            <span>Currently exploring: HTML Canvas</span>
+            <span>
+              Currently exploring:{" "}
+              <Link
+                href="/experiments/poppingPoints"
+                className="current-experiment-page-link text-cyan-700 hover:text-cyan-500 transition-colors duration-150"
+              >
+                HTML Canvas
+              </Link>{" "}
+            </span>
           </h4>
         </div>
       </section>
