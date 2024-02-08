@@ -9,6 +9,10 @@ type yRange = {
   yMax: number;
 };
 
+type gridCanvasGeneratorType = {
+  targetParentELementId?: string;
+};
+
 //==================== utils functions start here
 export const generateRandomCords = (xRange: xRange, yRange: yRange) => {
   let abscissa = Math.floor(
@@ -88,5 +92,69 @@ export const renderTextHighlighter = () => {
 
     // append the generated path to the parent svg element
     textToHighlight.append(highlighterSvg);
+  }
+};
+
+// grid canvas background generator
+export const generateGridCanvasBg = (
+  targetParentELementId: gridCanvasGeneratorType
+) => {
+  if (targetParentELementId) {
+    let targetParentElementRef = document.querySelector(
+      `#${targetParentELementId}`
+    );
+
+    if (targetParentElementRef) {
+      // create a new canvas element
+      let gridCanvas = document.createElement("canvas");
+      gridCanvas.setAttribute("id", "grid-canvas-bg");
+
+      // set all css properties
+      gridCanvas.style.position = "absolute";
+      gridCanvas.style.top = "0";
+      gridCanvas.style.left = "0";
+      gridCanvas.style.zIndex = "-1";
+      gridCanvas.style.opacity = "0.1";
+
+      // append the canvas to the target parent
+      targetParentElementRef.appendChild(gridCanvas);
+
+      // set the grid dimensions, full width and height of parent
+      gridCanvas.width = targetParentElementRef.clientWidth;
+      gridCanvas.height = targetParentElementRef.clientHeight;
+
+      // start generating the grid on canvas
+      let gridCanvasCtx = gridCanvas.getContext("2d");
+
+      if (gridCanvasCtx) {
+        // draw the grid columns
+        gridCanvasCtx.beginPath();
+        for (let x = 0; x <= window.innerWidth; x += 100) {
+          gridCanvasCtx.moveTo(x, 0);
+          gridCanvasCtx.lineTo(x, window.innerHeight);
+        }
+        gridCanvasCtx.strokeStyle = "gray";
+        gridCanvasCtx.stroke();
+        gridCanvasCtx.closePath();
+
+        // draw the grid rows
+        gridCanvasCtx.beginPath();
+        for (let y = 0; y <= window.innerHeight; y += 100) {
+          gridCanvasCtx.moveTo(0, y);
+          gridCanvasCtx.lineTo(window.innerWidth, y);
+        }
+        gridCanvasCtx.strokeStyle = "gray";
+        gridCanvasCtx.stroke();
+        gridCanvasCtx.closePath();
+      }
+    } else {
+      console.error(
+        "[GRID GENERATION FAILED]: Please provide valid target parent element class"
+      );
+    }
+  } else {
+    console.error(
+      "[GRID GENERATION FAILED]: Please provide target parent element class"
+    );
   }
 };
