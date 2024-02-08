@@ -51,12 +51,12 @@ export default function Home() {
       ></canvas>
 
       <section className="portfolio-scope-explanation w-full h-full p-8 lg:p-20 bg-transparent">
-        <h1 className="w-full lg:w-1/2 text-5xl mb-1 font-semibold">
+        <h1 className="w-full lg:w-1/2 text-4xl lg:text-5xl mb-1 font-semibold">
           Hello, seeker.
         </h1>
 
-        <h1 className="w-full lg:w-1/2 text-5xl mb-8 font-semibold">
-          Welcome to my programming journal.
+        <h1 className="w-full lg:w-1/2 text-4xl lg:text-5xl mb-8 font-semibold">
+          Welcome to my creative coding journal.
         </h1>
 
         <div className="current-research__tracker">
