@@ -62,7 +62,7 @@ export default function Home() {
         <div className="current-research__tracker">
           <h4 className="flex items-center gap-1 mb-1">
             <span className="current-experiment-pulse-indicator"></span>
-            <span>Currently exploring: SVG paths</span>
+            <span>Currently exploring: HTML Canvas</span>
           </h4>
         </div>
       </section>
