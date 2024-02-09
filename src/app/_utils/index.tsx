@@ -111,6 +111,14 @@ export const generateGridCanvasBg = (
       // make sure selected item is an HTML element
       targetParentElementRef instanceof Element
     ) {
+      // destroy existing canvas when resizing
+      let existingGridCanvasEl = document.querySelector(
+        `#${targetParentELementId} #grid-canvas-bg`
+      );
+      if (existingGridCanvasEl) {
+        targetParentElementRef.removeChild(existingGridCanvasEl);
+      }
+
       // create a new canvas element
       let gridCanvas = document.createElement("canvas");
       gridCanvas.setAttribute("id", "grid-canvas-bg");
