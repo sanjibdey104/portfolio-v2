@@ -134,8 +134,11 @@ export const generateGridCanvasBg = (
       targetParentElementRef.appendChild(gridCanvas);
 
       // set the grid dimensions, full width and height of parent
-      gridCanvas.width = targetParentElementRef.clientWidth;
-      gridCanvas.height = targetParentElementRef.clientHeight;
+      let targetParentElWidth = targetParentElementRef.clientWidth;
+      let targetParentElHeight = targetParentElementRef.clientHeight;
+
+      gridCanvas.width = targetParentElWidth;
+      gridCanvas.height = targetParentElHeight;
 
       // start generating the grid on canvas
       let gridCanvasCtx = gridCanvas.getContext("2d");
@@ -143,9 +146,9 @@ export const generateGridCanvasBg = (
       if (gridCanvasCtx) {
         // draw the grid columns
         gridCanvasCtx.beginPath();
-        for (let x = 0; x <= window.innerWidth; x += 100) {
+        for (let x = 0; x <= targetParentElWidth; x += 100) {
           gridCanvasCtx.moveTo(x, 0);
-          gridCanvasCtx.lineTo(x, window.innerHeight);
+          gridCanvasCtx.lineTo(x, targetParentElHeight);
         }
         gridCanvasCtx.strokeStyle = "gray";
         gridCanvasCtx.stroke();
@@ -153,9 +156,9 @@ export const generateGridCanvasBg = (
 
         // draw the grid rows
         gridCanvasCtx.beginPath();
-        for (let y = 0; y <= window.innerHeight; y += 100) {
+        for (let y = 0; y <= targetParentElHeight; y += 100) {
           gridCanvasCtx.moveTo(0, y);
-          gridCanvasCtx.lineTo(window.innerWidth, y);
+          gridCanvasCtx.lineTo(targetParentElWidth, y);
         }
         gridCanvasCtx.strokeStyle = "gray";
         gridCanvasCtx.stroke();
