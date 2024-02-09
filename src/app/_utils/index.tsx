@@ -97,14 +97,20 @@ export const renderTextHighlighter = () => {
 
 // grid canvas background generator
 export const generateGridCanvasBg = (
-  targetParentELementId: gridCanvasGeneratorType
+  targetParentELement: gridCanvasGeneratorType
 ) => {
+  const { targetParentELementId } = targetParentELement;
+
   if (targetParentELementId) {
     let targetParentElementRef = document.querySelector(
       `#${targetParentELementId}`
     );
 
-    if (targetParentElementRef) {
+    if (
+      targetParentElementRef &&
+      // make sure selected item is an HTML element
+      targetParentElementRef instanceof Element
+    ) {
       // create a new canvas element
       let gridCanvas = document.createElement("canvas");
       gridCanvas.setAttribute("id", "grid-canvas-bg");
