@@ -11,6 +11,8 @@ type yRange = {
 
 type gridCanvasGeneratorType = {
   targetParentELementId?: string;
+  requiredColumnsCount?: number;
+  requiredRowsCount?: number;
 };
 
 //==================== utils functions start here
@@ -99,7 +101,11 @@ export const renderTextHighlighter = () => {
 export const generateGridCanvasBg = (
   targetParentELement: gridCanvasGeneratorType
 ) => {
-  const { targetParentELementId } = targetParentELement;
+  const {
+    targetParentELementId = "",
+    requiredColumnsCount = 12,
+    requiredRowsCount = 6,
+  } = targetParentELement;
 
   if (targetParentELementId) {
     let targetParentElementRef = document.querySelector(
@@ -134,19 +140,25 @@ export const generateGridCanvasBg = (
       targetParentElementRef.appendChild(gridCanvas);
 
       // set the grid dimensions, full width and height of parent
-      let targetParentElWidth = targetParentElementRef.clientWidth;
-      let targetParentElHeight = targetParentElementRef.clientHeight;
+      let targetParentElWidth: number = targetParentElementRef.clientWidth;
+      let targetParentElHeight: number = targetParentElementRef.clientHeight;
 
       gridCanvas.width = targetParentElWidth;
       gridCanvas.height = targetParentElHeight;
 
       // start generating the grid on canvas
       let gridCanvasCtx = gridCanvas.getContext("2d");
+      let gridTileWidth: number = Math.floor(
+        targetParentElWidth / requiredColumnsCount
+      );
+      let gridTileHeight: number = Math.floor(
+        targetParentElWidth / requiredRowsCount
+      );
 
       if (gridCanvasCtx) {
         // draw the grid columns
         gridCanvasCtx.beginPath();
-        for (let x = 0; x <= targetParentElWidth; x += 100) {
+        for (let x = 0; x <= targetParentElWidth; x += gridTileWidth) {
           gridCanvasCtx.moveTo(x, 0);
           gridCanvasCtx.lineTo(x, targetParentElHeight);
         }
@@ -156,7 +168,7 @@ export const generateGridCanvasBg = (
 
         // draw the grid rows
         gridCanvasCtx.beginPath();
-        for (let y = 0; y <= targetParentElHeight; y += 100) {
+        for (let y = 0; y <= targetParentElHeight; y += gridTileHeight) {
           gridCanvasCtx.moveTo(0, y);
           gridCanvasCtx.lineTo(targetParentElWidth, y);
         }
