@@ -154,7 +154,7 @@ export const generateGridCanvasBg = (
       gridCanvas.style.top = "0";
       gridCanvas.style.left = "0";
       gridCanvas.style.zIndex = "-1";
-      gridCanvas.style.opacity = "0.2";
+      gridCanvas.style.opacity = "0.1";
 
       // append the canvas to the target parent
       targetParentElementRef.appendChild(gridCanvas);
@@ -350,6 +350,10 @@ export const calcSparseRandomCoords = (
 
     let biggerCord =
       gridTileWidth > gridTileHeight ? gridTileWidth : gridTileHeight;
+    let minDiagonalDistance = Math.floor(
+      Math.sqrt(gridTileWidth ** 2 + gridTileHeight ** 2)
+    );
+    console.log("=== minDiagonalDistance", minDiagonalDistance);
 
     let comparableGridCoords = allGridCoords.filter(
       (gridCord) =>
@@ -363,7 +367,7 @@ export const calcSparseRandomCoords = (
           sparsedCoord,
           gridCord
         );
-        return Boolean(distanceBetweenCoords > biggerCord);
+        return Boolean(distanceBetweenCoords > minDiagonalDistance + 50);
       });
 
       if (isValidDistantCoord) {
