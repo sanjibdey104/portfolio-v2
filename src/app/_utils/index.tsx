@@ -154,7 +154,7 @@ export const generateGridCanvasBg = (
       gridCanvas.style.top = "0";
       gridCanvas.style.left = "0";
       gridCanvas.style.zIndex = "-1";
-      gridCanvas.style.opacity = "0.1";
+      gridCanvas.style.opacity = "0.2";
 
       // append the canvas to the target parent
       targetParentElementRef.appendChild(gridCanvas);
@@ -204,15 +204,25 @@ export const generateGridCanvasBg = (
         });
 
         if (allGridCoords && allGridCoords.length) {
-          let randomGridCoords = pickRandomCoords(allGridCoords);
+          let { sparsedCoords = [], originRandomGridCord } =
+            calcSparseRandomCoords(
+              allGridCoords,
+              gridTileWidth,
+              gridTileHeight
+            );
 
-          randomGridCoords.forEach((randomGridCoord) => {
+          sparsedCoords.forEach((sparsedCoord) => {
             if (gridCanvasCtx) {
               gridCanvasCtx.beginPath();
-              gridCanvasCtx.fillStyle = "#000000";
+              gridCanvasCtx.fillStyle =
+                originRandomGridCord &&
+                sparsedCoord.xCord === originRandomGridCord.xCord &&
+                sparsedCoord.yCord === originRandomGridCord.yCord
+                  ? "#FF0000"
+                  : "#000000";
               gridCanvasCtx.arc(
-                randomGridCoord.xCord,
-                randomGridCoord.yCord,
+                sparsedCoord.xCord,
+                sparsedCoord.yCord,
                 20,
                 0,
                 2 * Math.PI
@@ -308,4 +318,58 @@ export const pickRandomCoords = (
     }
   }
   return randomCoordsArr;
+};
+
+// calculate distance between two coordinates
+export const calcDistanceBetweenCoords = (
+  coordOne: ICoord,
+  coordTwo: ICoord
+) => {
+  return Math.floor(
+    Math.sqrt(
+      (coordOne.xCord - coordTwo.xCord) ** 2 +
+        (coordOne.yCord - coordTwo.yCord) ** 2
+    )
+  );
+};
+
+// calculate unique and well-spaced/sparsed coordinates
+export const calcSparseRandomCoords = (
+  allGridCoords: Array<ICoord> = [],
+  gridTileWidth: number,
+  gridTileHeight: number
+) => {
+  let sparsedCoords: Array<ICoord> = [];
+  let originRandomGridCord: ICoord | null = null;
+
+  if (allGridCoords && allGridCoords.length) {
+    originRandomGridCord =
+      allGridCoords[Math.floor(Math.random() * allGridCoords.length)];
+
+    sparsedCoords.push(originRandomGridCord);
+
+    let biggerCord =
+      gridTileWidth > gridTileHeight ? gridTileWidth : gridTileHeight;
+
+    let comparableGridCoords = allGridCoords.filter(
+      (gridCord) =>
+        gridCord.xCord !== originRandomGridCord?.xCord ||
+        gridCord.yCord !== originRandomGridCord?.yCord
+    );
+
+    comparableGridCoords.forEach((gridCord) => {
+      let isValidDistantCoord = sparsedCoords.every((sparsedCoord) => {
+        let distanceBetweenCoords = calcDistanceBetweenCoords(
+          sparsedCoord,
+          gridCord
+        );
+        return Boolean(distanceBetweenCoords > biggerCord);
+      });
+
+      if (isValidDistantCoord) {
+        sparsedCoords.push(gridCord);
+      } else return;
+    });
+  }
+  return { sparsedCoords, originRandomGridCord };
 };
