@@ -121,6 +121,7 @@ export const generateGridCanvasBg = (
       let existingGridCanvasEl = document.querySelector(
         `#${targetParentELementId} #grid-canvas-bg`
       );
+
       if (existingGridCanvasEl) {
         targetParentElementRef.removeChild(existingGridCanvasEl);
       }
@@ -186,4 +187,99 @@ export const generateGridCanvasBg = (
       "[GRID GENERATION FAILED]: Please provide target parent element class"
     );
   }
+};
+
+interface IGridAxisCoordsCalculator {
+  targetParentElWidth: number;
+  targetParentElHeight: number;
+  requiredColumnsCount: number;
+  requiredRowsCount: number;
+}
+
+interface ICoord {
+  xCord: number;
+  yCord: number;
+}
+
+interface ICordObj {
+  [key: string]: {
+    xCord: number;
+    yCord: number;
+  };
+}
+
+// fetch grid axis coordinates
+export const calcGridAxisCoordinates = (
+  gridCalcMetrics: IGridAxisCoordsCalculator
+) => {
+  let {
+    targetParentElWidth,
+    targetParentElHeight,
+    requiredColumnsCount,
+    requiredRowsCount,
+  } = gridCalcMetrics;
+
+  let ordinates: Array<number> = [];
+  let abscissas: Array<number> = [];
+  let gridCoords: Array<{ xCord: number; yCord: number }> = [];
+  let gridCoordsObj: ICordObj = {};
+
+  let gridTileWidth: number = Math.floor(
+    targetParentElWidth / requiredColumnsCount
+  );
+  let gridTileHeight: number = Math.floor(
+    targetParentElHeight / requiredRowsCount
+  );
+
+  for (let x = 0; x <= targetParentElWidth; x += gridTileWidth) {
+    ordinates.push(x);
+  }
+
+  for (let y = 0; y <= targetParentElHeight; y += gridTileHeight) {
+    abscissas.push(y);
+  }
+
+  for (let xCordIdx = 0; xCordIdx < ordinates.length; xCordIdx++) {
+    for (let yCordIdx = 0; yCordIdx < abscissas.length; yCordIdx++) {
+      gridCoords.push({
+        xCord: ordinates[xCordIdx],
+        yCord: abscissas[yCordIdx],
+      });
+
+      gridCoordsObj[`coord_${xCordIdx}_${yCordIdx}`] = {
+        xCord: ordinates[xCordIdx],
+        yCord: abscissas[yCordIdx],
+      };
+    }
+  }
+
+  pickRandomCoords(gridCoords);
+};
+
+// pick random coords
+export const pickRandomCoords = (
+  coordsArr: Array<ICoord>
+  // coordsObj: ICordObj
+) => {
+  let randomCoordsArr: Array<ICoord> = [];
+  let requiredRandomCoordsCount = 25;
+
+  for (
+    let randomCordCount = 0;
+    randomCordCount < requiredRandomCoordsCount;
+    randomCordCount++
+  ) {
+    let randomCord = coordsArr[Math.floor(Math.random() * coordsArr.length)];
+    let isCordAlreadyExists = randomCoordsArr.some(
+      (cord) =>
+        cord.xCord === randomCord.xCord && cord.yCord === randomCord.yCord
+    );
+
+    if (!isCordAlreadyExists) {
+      randomCoordsArr.push(randomCord);
+    } else {
+      randomCordCount = randomCordCount - 1;
+    }
+  }
+  return randomCoordsArr;
 };

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { generateGridCanvasBg } from "./_utils";
+import { calcGridAxisCoordinates, generateGridCanvasBg } from "./_utils";
 
 export default function Home() {
   useEffect(() => {
@@ -10,9 +10,20 @@ export default function Home() {
       targetParentELementId: "homepage",
     });
 
-    window.addEventListener("resize", () => {
-      generateGridCanvasBg({ targetParentELementId: "homepage" });
-    });
+    let targetParentElementRef = document.querySelector("#homepage");
+
+    if (targetParentElementRef) {
+      calcGridAxisCoordinates({
+        targetParentElWidth: targetParentElementRef?.clientWidth,
+        targetParentElHeight: targetParentElementRef?.clientHeight,
+        requiredColumnsCount: 8,
+        requiredRowsCount: 6,
+      });
+    }
+
+    // window.addEventListener("resize", () => {
+    //   generateGridCanvasBg({ targetParentELementId: "homepage" });
+    // });
   }, []);
 
   return (
