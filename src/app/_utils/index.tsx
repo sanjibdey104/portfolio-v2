@@ -103,7 +103,7 @@ export const generateGridCanvasBg = (
 ) => {
   const {
     targetParentELementId = "",
-    requiredColumnsCount = 12,
+    requiredColumnsCount = 8,
     requiredRowsCount = 6,
   } = targetParentELement;
 
@@ -152,7 +152,7 @@ export const generateGridCanvasBg = (
         targetParentElWidth / requiredColumnsCount
       );
       let gridTileHeight: number = Math.floor(
-        targetParentElWidth / requiredRowsCount
+        targetParentElHeight / requiredRowsCount
       );
 
       if (gridCanvasCtx) {

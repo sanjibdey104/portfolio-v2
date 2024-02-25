@@ -20,7 +20,7 @@ export default function Home() {
       className="flex min-h-screen flex-col items-center justify-center"
       id="homepage"
     >
-      <section className="portfolio-scope-explanation w-full h-full p-8 lg:p-20 bg-transparent">
+      <section className="portfolio-scope-explanation w-full h-full flex flex-col items-start justify-center p-8 lg:p-20 bg-transparent">
         <h1 className="w-full lg:w-1/2 text-4xl lg:text-5xl mb-1 font-semibold">
           Hello, seeker.
         </h1>
