@@ -343,17 +343,15 @@ export const calcSparseRandomCoords = (
   let originRandomGridCord: ICoord | null = null;
 
   if (allGridCoords && allGridCoords.length) {
-    originRandomGridCord =
-      allGridCoords[Math.floor(Math.random() * allGridCoords.length)];
+    originRandomGridCord = allGridCoords.map((gridCoord) =>
+      calcDeviatedCoordPosition(gridCoord)
+    )[Math.floor(Math.random() * allGridCoords.length)];
 
     sparsedCoords.push(originRandomGridCord);
 
-    let biggerCord =
-      gridTileWidth > gridTileHeight ? gridTileWidth : gridTileHeight;
     let minDiagonalDistance = Math.floor(
       Math.sqrt(gridTileWidth ** 2 + gridTileHeight ** 2)
     );
-    console.log("=== minDiagonalDistance", minDiagonalDistance);
 
     let comparableGridCoords = allGridCoords.filter(
       (gridCord) =>
@@ -367,13 +365,27 @@ export const calcSparseRandomCoords = (
           sparsedCoord,
           gridCord
         );
-        return Boolean(distanceBetweenCoords > minDiagonalDistance + 50);
+        return Boolean(distanceBetweenCoords > minDiagonalDistance);
       });
 
       if (isValidDistantCoord) {
-        sparsedCoords.push(gridCord);
+        let deviatedGridCoord = calcDeviatedCoordPosition(gridCord);
+        sparsedCoords.push(deviatedGridCoord);
       } else return;
     });
   }
   return { sparsedCoords, originRandomGridCord };
+};
+
+export const calcDeviatedCoordPosition = (targetGridCoord: ICoord) => {
+  let { xCord, yCord } = targetGridCoord;
+
+  let deviatedXCoordPosition: number = xCord + Math.random() * (xCord - yCord);
+  let deviatedYCoordPosition: number = yCord + Math.random() * (yCord - xCord);
+  let deviatedGridCoord: ICoord = {
+    xCord: deviatedXCoordPosition,
+    yCord: deviatedYCoordPosition,
+  };
+
+  return deviatedGridCoord;
 };
