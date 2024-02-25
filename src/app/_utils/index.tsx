@@ -15,6 +15,25 @@ type gridCanvasGeneratorType = {
   requiredRowsCount?: number;
 };
 
+interface IGridAxisCoordsCalculator {
+  targetParentElWidth: number;
+  targetParentElHeight: number;
+  requiredColumnsCount: number;
+  requiredRowsCount: number;
+}
+
+interface ICoord {
+  xCord: number;
+  yCord: number;
+}
+
+interface ICordObj {
+  [key: string]: {
+    xCord: number;
+    yCord: number;
+  };
+}
+
 //==================== utils functions start here
 export const generateRandomCords = (xRange: xRange, yRange: yRange) => {
   let abscissa = Math.floor(
@@ -176,6 +195,32 @@ export const generateGridCanvasBg = (
         gridCanvasCtx.strokeStyle = "gray";
         gridCanvasCtx.stroke();
         gridCanvasCtx.closePath();
+
+        let allGridCoords = calcGridAxisCoordinates({
+          targetParentElWidth,
+          targetParentElHeight,
+          requiredColumnsCount,
+          requiredRowsCount,
+        });
+
+        if (allGridCoords && allGridCoords.length) {
+          let randomGridCoords = pickRandomCoords(allGridCoords);
+
+          randomGridCoords.forEach((randomGridCoord) => {
+            if (gridCanvasCtx) {
+              gridCanvasCtx.beginPath();
+              gridCanvasCtx.fillStyle = "#000000";
+              gridCanvasCtx.arc(
+                randomGridCoord.xCord,
+                randomGridCoord.yCord,
+                20,
+                0,
+                2 * Math.PI
+              );
+              gridCanvasCtx.fill();
+            }
+          });
+        }
       }
     } else {
       console.error(
@@ -188,25 +233,6 @@ export const generateGridCanvasBg = (
     );
   }
 };
-
-interface IGridAxisCoordsCalculator {
-  targetParentElWidth: number;
-  targetParentElHeight: number;
-  requiredColumnsCount: number;
-  requiredRowsCount: number;
-}
-
-interface ICoord {
-  xCord: number;
-  yCord: number;
-}
-
-interface ICordObj {
-  [key: string]: {
-    xCord: number;
-    yCord: number;
-  };
-}
 
 // fetch grid axis coordinates
 export const calcGridAxisCoordinates = (
@@ -246,14 +272,14 @@ export const calcGridAxisCoordinates = (
         yCord: abscissas[yCordIdx],
       });
 
-      gridCoordsObj[`coord_${xCordIdx}_${yCordIdx}`] = {
-        xCord: ordinates[xCordIdx],
-        yCord: abscissas[yCordIdx],
-      };
+      // gridCoordsObj[`coord_${xCordIdx}_${yCordIdx}`] = {
+      //   xCord: ordinates[xCordIdx],
+      //   yCord: abscissas[yCordIdx],
+      // };
     }
   }
 
-  pickRandomCoords(gridCoords);
+  return gridCoords;
 };
 
 // pick random coords
