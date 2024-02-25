@@ -213,17 +213,20 @@ export const generateGridCanvasBg = (
 
           sparsedCoords.forEach((sparsedCoord) => {
             if (gridCanvasCtx) {
-              gridCanvasCtx.beginPath();
-              gridCanvasCtx.fillStyle =
+              let randomPointRadius: number = Math.random() * 8 + 20;
+              let pointFillStyle: string =
                 originRandomGridCord &&
                 sparsedCoord.xCord === originRandomGridCord.xCord &&
                 sparsedCoord.yCord === originRandomGridCord.yCord
-                  ? "#FF0000"
-                  : "#000000";
+                  ? "#FF0000" // mark origin random grid point as "red" (just for sparsing logic check reference)
+                  : randomHexColorCodeGenerator();
+
+              gridCanvasCtx.beginPath();
+              gridCanvasCtx.fillStyle = pointFillStyle;
               gridCanvasCtx.arc(
                 sparsedCoord.xCord,
                 sparsedCoord.yCord,
-                20,
+                randomPointRadius,
                 0,
                 2 * Math.PI
               );
@@ -388,4 +391,8 @@ export const calcDeviatedCoordPosition = (targetGridCoord: ICoord) => {
   };
 
   return deviatedGridCoord;
+};
+
+export const randomHexColorCodeGenerator = () => {
+  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 };
