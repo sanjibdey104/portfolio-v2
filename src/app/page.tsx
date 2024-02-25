@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { calcGridAxisCoordinates, generateGridCanvasBg } from "./_utils";
+import { currentTodos } from "./_data";
 
 export default function Home() {
   useEffect(() => {
@@ -55,6 +56,25 @@ export default function Home() {
           </h4>
         </div>
       </section>
+
+      <ul className="current-todos">
+        <li className="text-gray-900 text-sm">ToDos: </li>
+
+        {currentTodos
+          .map((currentTodo, index) => ({
+            todo_id: index,
+            todo_content: currentTodo,
+            is_todo_done: false,
+          }))
+          .map((currentTodo) => (
+            <li
+              className="text-gray-400 text-sm"
+              onClick={(e) => e.currentTarget.classList.toggle("line-through")}
+            >
+              - {currentTodo.todo_content}
+            </li>
+          ))}
+      </ul>
     </main>
   );
 }
