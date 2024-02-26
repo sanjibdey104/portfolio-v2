@@ -344,11 +344,14 @@ export const calcSparseRandomCoords = (
 ) => {
   let sparsedCoords: Array<ICoord> = [];
   let originRandomGridCord: ICoord | null = null;
+  let deviatedGridCoords =
+    allGridCoords && allGridCoords.length
+      ? allGridCoords.map((gridCoord) => calcDeviatedCoordPosition(gridCoord))
+      : [];
 
-  if (allGridCoords && allGridCoords.length) {
-    originRandomGridCord = allGridCoords.map((gridCoord) =>
-      calcDeviatedCoordPosition(gridCoord)
-    )[Math.floor(Math.random() * allGridCoords.length)];
+  if (deviatedGridCoords.length) {
+    originRandomGridCord =
+      deviatedGridCoords[Math.floor(Math.random() * allGridCoords.length)];
 
     sparsedCoords.push(originRandomGridCord);
 
@@ -356,7 +359,7 @@ export const calcSparseRandomCoords = (
       Math.sqrt(gridTileWidth ** 2 + gridTileHeight ** 2)
     );
 
-    let comparableGridCoords = allGridCoords.filter(
+    let comparableGridCoords = deviatedGridCoords.filter(
       (gridCord) =>
         gridCord.xCord !== originRandomGridCord?.xCord ||
         gridCord.yCord !== originRandomGridCord?.yCord
